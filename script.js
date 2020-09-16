@@ -1,6 +1,5 @@
 
 const key = config.MY_KEY;
-document.getElementById("run").addEventListener("click", getWeather)
 
 function getWeather() {
     let city = document.getElementById("city").value;
@@ -8,8 +7,12 @@ function getWeather() {
         .then(response => response.json())
         .then(weather => {
             console.log(weather);
+            let nextFive = weather.list.slice(0, 5);     // .slice() method to get a portion of the array
+            console.log(nextFive);
         });
+
     
 }
 
 
+document.getElementById("run").addEventListener("click", getWeather)
