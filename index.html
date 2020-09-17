@@ -3,17 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Weather App</title>
+    <link rel="stylesheet" href="styles.css" type="text/css">
 </head>
 <body>
 <div class="container">
     <header></header>
 
 
-    <div class="search-area">
+    <div class="input">
         <input type="text" id="city"/>
-        <button id="search-btn">Enter city</button>
+        <button id="run">Enter City</button>
+    </div>
+    <div class="container">
+        <h1 id="name"></h1>
+        <div class="card">
+            <p id="temp1"></p>
+            <img id="icon1" alt ="weather icon">
+            <p id="desc1"></p>
+        </div>
+        <div class="card">
+            <p id="temp2"></p>
+            <img id="icon2" alt ="weather icon">
+            <p id="desc2"></p>
+        </div>
+        <div class="card">
+            <p id="temp3"></p>
+            <img id="icon3" alt ="weather icon">
+            <p id="desc3"></p>
+        </div>
+        <div class="card">
+            <p id="temp4"></p>
+            <img id="icon4" alt ="weather icon">
+            <p id="desc4"></p>
+        </div>
+        <div class="card">
+            <p id="temp5"></p>
+            <img id="icon5" alt ="weather icon">
+            <p id="desc5"></p>
+        </div>
     </div>
 </div>
+<script type='text/javascript' src='config.js'></script>
 <script src="script.js"></script>
 </body>
 </html>
