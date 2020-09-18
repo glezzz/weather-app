@@ -46,8 +46,8 @@ function getTemps(lat, lon){ fetch(oneCallUrl + lat + "&lon=" + lon + "&units=me
         let iconFive = data.daily[4].weather[0].icon;
         //console.log(dayFive);
 
-        display(dayOne, descOne, iconOne, dayTwo, descTwo, iconTwo,
-                dayThree, descThree, iconThree, dayFour, descFour, iconFour, dayFive, descFive, iconFive);
+        display(dayOne, descOne, iconOne, /*dayTwo,*/ descTwo, iconTwo,
+                /*dayThree, */descThree, iconThree,/* dayFour,*/ descFour, iconFour,/* dayFive,*/ descFive, iconFive);
         getAvg(data, arrayAvg)
 
     })
@@ -58,26 +58,26 @@ function getTemps(lat, lon){ fetch(oneCallUrl + lat + "&lon=" + lon + "&units=me
 
 const iconUrl = "http://openweathermap.org/img/wn/"
 
-function display(dayOne, descOne, iconOne, dayTwo, descTwo, iconTwo, dayThree, descThree, iconThree,
-                 dayFour, descFour, iconFour, dayFive, descFive, iconFive ){
+function display(dayOne, descOne, iconOne, /*dayTwo, */descTwo, iconTwo,/* dayThree,*/ descThree, iconThree,
+                 /*dayFour,*/ descFour, iconFour,/* dayFive,*/ descFive, iconFive){
     document.getElementById("temp1").innerHTML = Math.round(dayOne) + "°C";
     console.log(dayOne);
     document.getElementById("desc1").innerHTML = descOne;
     document.getElementById("icon1").src = iconUrl+ iconOne + "@2x.png";
 
-    document.getElementById("temp2").innerHTML = Math.round(dayTwo) + "°C";
+    //document.getElementById("temp2").innerHTML = Math.round(dayTwo) + "°C";
     document.getElementById("desc2").innerHTML = descTwo;
     document.getElementById("icon2").src = iconUrl + iconTwo + "@2x.png";
 
-    document.getElementById("temp3").innerHTML = Math.round(dayThree) + "°C";
+    //document.getElementById("temp3").innerHTML = Math.round(dayThree) + "°C";
     document.getElementById("desc3").innerHTML = descThree;
     document.getElementById("icon3").src = iconUrl + iconThree + "@2x.png";
 
-    document.getElementById("temp4").innerHTML = Math.round(dayFour) + "°C";
+    //document.getElementById("temp4").innerHTML = Math.round(dayFour) + "°C";
     document.getElementById("desc4").innerHTML = descFour;
     document.getElementById("icon4").src = iconUrl + iconFour + "@2x.png";
 
-    document.getElementById("temp5").innerHTML = Math.round(dayFive) + "°C";
+    //document.getElementById("temp5").innerHTML = Math.round(dayFive) + "°C";
     document.getElementById("desc5").innerHTML = descFive;
     document.getElementById("icon5").src = iconUrl + iconFive + "@2x.png";
 }
@@ -93,8 +93,14 @@ function getAvg(data, arrayAvg) {
         let avg = Math.floor    (sum/4);
         arrayAvg.push("avg " + avg + "°C");
 
+        document.getElementById("avg-temp2").innerHTML = arrayAvg[0];
+        document.getElementById("avg-temp3").innerHTML = arrayAvg[1];
+        document.getElementById("avg-temp4").innerHTML = arrayAvg[2];
+        document.getElementById("avg-temp5").innerHTML = arrayAvg[3];
+
     }
     console.log(arrayAvg);
+
 
 }
 
