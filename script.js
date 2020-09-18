@@ -54,13 +54,11 @@ function getTemps(lat, lon){ fetch(oneCallUrl + lat + "&lon=" + lon + "&units=me
 
 }
 
-
-
 const iconUrl = "http://openweathermap.org/img/wn/"
 
 function display(dayOne, descOne, iconOne, /*dayTwo, */descTwo, iconTwo,/* dayThree,*/ descThree, iconThree,
                  /*dayFour,*/ descFour, iconFour,/* dayFive,*/ descFive, iconFive){
-    document.getElementById("temp1").innerHTML = Math.round(dayOne) + "°C";
+    document.getElementById("temp1").innerHTML = "Currently " + Math.round(dayOne) + "°C";
     console.log(dayOne);
     document.getElementById("desc1").innerHTML = descOne;
     document.getElementById("icon1").src = iconUrl+ iconOne + "@2x.png";
@@ -81,9 +79,11 @@ function display(dayOne, descOne, iconOne, /*dayTwo, */descTwo, iconTwo,/* dayTh
     document.getElementById("desc5").innerHTML = descFive;
     document.getElementById("icon5").src = iconUrl + iconFive + "@2x.png";
 }
- let arrayAvg = []
+
+let arrayAvg = []
 
 function getAvg(data, arrayAvg) {
+
     for (i = 0; i < 4; i++) {
         let day = data.daily[i].temp.day;
         let eve = data.daily[i].temp.eve;
@@ -91,7 +91,7 @@ function getAvg(data, arrayAvg) {
         let morn = data.daily[i].temp.morn;
         let sum = day + eve + night + morn;
         let avg = Math.floor    (sum/4);
-        arrayAvg.push("avg " + avg + "°C");
+        arrayAvg.push("Avg " + avg + "°C");
 
         document.getElementById("avg-temp2").innerHTML = arrayAvg[0];
         document.getElementById("avg-temp3").innerHTML = arrayAvg[1];
