@@ -1,110 +1,82 @@
 
 const key = config.MY_KEY;
-const url = "http://api.openweathermap.org/data/2.5/forecast?q=";
+const apiUrl = "http://api.openweathermap.org/data/2.5/forecast?q=";
 
 function getWeather() {
     let city = document.getElementById("city").value;
-    fetch(url + city + "&units=metric&appid=" + key)
+    fetch(apiUrl + city + "&units=metric&appid=" + key)
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            let name = data.city.name;
+            //let name = data.city.name;
             let lon = data.city.coord.lon;
             let lat = data.city.coord.lat;
             document.getElementById("name").innerHTML = data.city.name + ", " + data.city.country;
             getTemps(lat,lon);
-
-
         })
 
 }
+
 const oneCallUrl = "https://api.openweathermap.org/data/2.5/onecall?lat="
 
-function getTemps(lat, lon){ fetch(oneCallUrl + lat + "&lon=" + lon + "&units=metric&appid=" + key)
-    .then(response => response.json())
-    .then(data => {
-        console.log(data)
-        let dayOne = data.current.temp;
-        let descOne = data.daily[0].weather[0].description;
-        let iconOne = data.daily[0].weather[0].icon;
-        console.log(dayOne);
-        //console.log(descOne);
-        let dayTwo = data.daily[1].temp.day;
-        let descTwo = data.daily[1].weather[0].description;
-        let iconTwo = data.daily[1].weather[0].icon;
-        //console.log(descTwo);
-        let dayThree= data.daily[2].temp.day;
-        let descThree = data.daily[2].weather[0].description;
-        let iconThree = data.daily[2].weather[0].icon;
-        //console.log(dayThree);
-        let dayFour = data.daily[3].temp.day;
-        let descFour = data.daily[3].weather[0].description;
-        let iconFour = data.daily[3].weather[0].icon;
-        //console.log(dayFour);
-        let dayFive = data.daily[4].temp.day;
-        let descFive = data.daily[4].weather[0].description;
-        let iconFive = data.daily[4].weather[0].icon;
-        //console.log(dayFive);
+function getTemps(lat, lon){
+    fetch(oneCallUrl + lat + "&lon=" + lon + "&units=metric&appid=" + key)
+        .then(response => response.json())
+        .then(data => {
+            console.log("data", data)
+            let days = [];
 
-        display(dayOne, descOne, iconOne, /*dayTwo,*/ descTwo, iconTwo,
-                /*dayThree, */descThree, iconThree,/* dayFour,*/ descFour, iconFour,/* dayFive,*/ descFive, iconFive);
-        getAvg(data, arrayAvg)
+            for(let d = 0; d < 5; d++ ){
 
-    })
+                let temp;
+                if (d == 0) {
+                    temp = data.current.temp;
+                } else {
+                    temp = data.daily[d].temp.day;
+                }
+
+
+                console.log("d daily", d, data.daily[d]);
+
+                let weather = data.daily[d].weather[0];
+
+                console.log("d weather", d, weather);
+
+                let day = {
+                    temp : temp,
+                    description : weather.description,
+                    icon : weather.icon,
+                }
+
+                days.push(day);
+                console.log(day);
+            }
+
+            display(days);
+          //  getAvg(data)
+
+        })
 
 }
 
 const iconUrl = "http://openweathermap.org/img/wn/"
 
-function display(dayOne, descOne, iconOne, /*dayTwo, */descTwo, iconTwo,/* dayThree,*/ descThree, iconThree,
-                 /*dayFour,*/ descFour, iconFour,/* dayFive,*/ descFive, iconFive){
-    document.getElementById("temp1").innerHTML = "Currently " + Math.round(dayOne) + "°C";
-    console.log(dayOne);
-    document.getElementById("desc1").innerHTML = descOne;
-    document.getElementById("icon1").src = iconUrl+ iconOne + "@2x.png";
+function display(days){
+    for(let d = 0; d < days.length; d++) {
+        let day = days[d];
+        console.log(day);
 
-    //document.getElementById("temp2").innerHTML = Math.round(dayTwo) + "°C";
-    document.getElementById("desc2").innerHTML = descTwo;
-    document.getElementById("icon2").src = iconUrl + iconTwo + "@2x.png";
+        if (d == 0){
+            document.getElementById("temp" + (d+1)).innerHTML = "Currently " + Math.round(day.temp) + "°C";
+        } else {
+            document.getElementById("avg-temp" + (d+1)).innerHTML = "Avg " + Math.round(day.temp) + "°C";
+        }
 
-    //document.getElementById("temp3").innerHTML = Math.round(dayThree) + "°C";
-    document.getElementById("desc3").innerHTML = descThree;
-    document.getElementById("icon3").src = iconUrl + iconThree + "@2x.png";
-
-    //document.getElementById("temp4").innerHTML = Math.round(dayFour) + "°C";
-    document.getElementById("desc4").innerHTML = descFour;
-    document.getElementById("icon4").src = iconUrl + iconFour + "@2x.png";
-
-    //document.getElementById("temp5").innerHTML = Math.round(dayFive) + "°C";
-    document.getElementById("desc5").innerHTML = descFive;
-    document.getElementById("icon5").src = iconUrl + iconFive + "@2x.png";
-}
-
-let arrayAvg = []
-
-function getAvg(data, arrayAvg) {
-
-    for (i = 0; i < 4; i++) {
-        let day = data.daily[i].temp.day;
-        let eve = data.daily[i].temp.eve;
-        let night = data.daily[i].temp.night;
-        let morn = data.daily[i].temp.morn;
-        let sum = day + eve + night + morn;
-        let avg = Math.floor    (sum/4);
-        arrayAvg.push("Avg " + avg + "°C");
-
-        document.getElementById("avg-temp2").innerHTML = arrayAvg[0];
-        document.getElementById("avg-temp3").innerHTML = arrayAvg[1];
-        document.getElementById("avg-temp4").innerHTML = arrayAvg[2];
-        document.getElementById("avg-temp5").innerHTML = arrayAvg[3];
-
+        document.getElementById("desc" + (d+1)).innerHTML = day.description;
+        document.getElementById("icon" + (d+1)).src = iconUrl+ day.icon + "@2x.png";
     }
-    console.log(arrayAvg);
 
 
 }
-
-
-
 
 document.getElementById("run").addEventListener("click", getWeather)
